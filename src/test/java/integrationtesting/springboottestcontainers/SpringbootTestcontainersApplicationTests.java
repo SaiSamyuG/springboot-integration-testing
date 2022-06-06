@@ -11,12 +11,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Testcontainers
 class SpringbootTestcontainersApplicationTests {
+
+    @Container
+    private static PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:latest");
 
     @Autowired
     private MockMvc mockMvc;
@@ -26,6 +33,8 @@ class SpringbootTestcontainersApplicationTests {
 
     @Test
     public void shouldReturnListOfStudents() throws Exception {
+        System.out.println(postgreSQLContainer.getDatabaseName());
+        System.out.println(postgreSQLContainer.getUsername());
         List<Student> students =
                 List.of(Student.builder().firstName("Sai Samyuktha").lastName("Gourishetti").email("sai@gmail.com").build(),
                         Student.builder().firstName("lumos").lastName("practice").email("project@gmail.com").build());
